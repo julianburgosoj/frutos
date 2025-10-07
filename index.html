@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <title>AR - Frutos del Espíritu</title>
+
+    <!-- Librerías principales -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f1724 0%, #0b3d91 50%, #0b2b5a 100%);
+            color: #fff;
+        }
+
+        #inicio {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 18px;
+            z-index: 5;
+        }
+
+        #btnEscanear {
+            background: linear-gradient(90deg, #00d4ff 0%, #5efce8 100%);
+            color: #052023;
+            padding: 14px 34px;
+            border-radius: 28px;
+            border: none;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.18);
+            transition: transform .14s ease;
+        }
+
+        #btnEscanear:hover {
+            transform: scale(1.03);
+        }
+
+        #hint {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            z-index: 6;
+            backdrop-filter: blur(4px);
+        }
+
+        #ar-scene {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Pantalla de inicio -->
+    <div id="inicio">
+        <h1>🍇 Frutos del Espíritu</h1>
+        <p>“Mas el fruto del Espíritu es amor, gozo, paz, paciencia, benignidad, bondad, fe, mansedumbre y
+            templanza.”<br><small>— Gálatas 5:22-23</small></p>
+        <p>Escanea cada diseño y descubre el mensaje detrás de cada fruto.</p>
+        <button id="btnEscanear" type="button">✨ Iniciar experiencia AR</button>
+    </div>
+
+    <!-- Escena AR -->
+    <a-scene id="ar-scene" mindar-image="imageTargetSrc: ./img/amor.mind; autoStart: false;" color-space="sRGB" embedded
+        vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+
+        <a-assets>
+            <video id="vid-amor" src="amor.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="vid-benignidad" src="benignidad.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="vid-bondad" src="bondad.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="vid-fe" src="fe.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="vid-gozo" src="gozo.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="vid-mansedumbre" src="mansedumbre.mp4" preload="auto" playsinline
+                crossorigin="anonymous"></video>
+            <video id="vid-paciencia" src="paciencia.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="vid-paz" src="paz.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="vid-templanza" src="templanza.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+        </a-assets>
+
+        <!-- Targets (uno por fruto) -->
+        <a-entity mindar-image-target="src: ./img/amor.mind; targetIndex: 0">
+            <a-video src="#vid-amor" position="0 0 0" rotation="0 0 0" width="1" height="0.56"></a-video>
+        </a-entity>
+
+        <a-entity mindar-image-target="src: ./img/benignidad.mind; targetIndex: 0">
+            <a-video src="#vid-benignidad" position="0 0 0" rotation="0 0 0" width="1" height="0.56"></a-video>
+        </a-entity>
+
+        <a-entity mindar-image-target="src: ./img/bondad.mind; targetIndex: 0">
+            <a-video src="#vid-bondad" position="0 0 0" rotation="0 0 0" width="1" height="0.56"></a-video>
+        </a-entity>
+
+        <a-entity mindar-image-target="src: ./img/fe.mind; targetIndex: 0">
+            <a-video src="#vid-fe" position="0 0 0" rotation="0 0 0" width="1" height="0.56"></a-video>
+        </a-entity>
+
+        <a-entity mindar-image-target="src: ./img/gozo.mind; targetIndex: 0">
+            <a-video src="#vid-gozo" position="0 0 0" rotation="0 0 0" width="1" height="0.56"></a-video>
+        </a-entity>
+
+        <a-entity mindar-image-target="src: ./img/mansedumbre.mind; targetIndex: 0">
+            <a-video src="#vid-mansedumbre" position="0 0 0" rotation="0 0 0" width="1" height="0.56"></a-video>
+        </a-entity>
+
+        <a-entity mindar-image-target="src: ./img/paciencia.mind; targetIndex: 0">
+            <a-video src="#vid-paciencia" position="0 0 0" rotation="0 0 0" width="1" height="0.56"></a-video>
+        </a-entity>
+
+        <a-entity mindar-image-target="src: ./img/paz.mind; targetIndex: 0">
+            <a-video src="#vid-paz" position="0 0 0" rotation="0 0 0" width="1" height="0.56"></a-video>
+        </a-entity>
+
+        <a-entity mindar-image-target="src: ./img/templanza.mind; targetIndex: 0">
+            <a-video src="#vid-templanza" position="0 0 0" rotation="0 0 0" width="1" height="0.56"></a-video>
+        </a-entity>
+
+        <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
+    </a-scene>
+
+    <div id="hint">Apunta la cámara a tu diseño</div>
+
+    <script>
+        const btn = document.getElementById("btnEscanear");
+        const inicio = document.getElementById("inicio");
+        const scene = document.getElementById("ar-scene");
+
+        btn.addEventListener("click", () => {
+            inicio.style.display = "none";
+            scene.style.display = "block";
+
+            // Iniciar la cámara AR
+            const mindarComponent = scene.components["mindar-image"];
+            mindarComponent.start();
+        });
+
+        // Control automático de videos
+        const videos = document.querySelectorAll("video");
+
+        document.querySelectorAll("a-entity[mindar-image-target]").forEach((target, index) => {
+            const video = videos[index];
+            target.addEventListener("targetFound", () => {
+                video.currentTime = 0;
+                video.play();
+            });
+            target.addEventListener("targetLost", () => {
+                video.pause();
+            });
+        });
+    </script>
+</body>
+
+</html>
