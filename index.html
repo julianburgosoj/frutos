@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Frutos del Espíritu - AR</title>
+
+  <!-- Librerías de A-Frame y MindAR -->
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.4/dist/mindar-image-aframe.prod.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -23,7 +26,7 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
       z-index: 10;
       padding: 20px;
     }
@@ -34,7 +37,6 @@
       background: linear-gradient(90deg, #ffcc70, #ff8177);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
     }
 
     #inicio p {
@@ -42,7 +44,7 @@
       max-width: 420px;
       margin-bottom: 20px;
       font-size: 15px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     #btnIniciar {
@@ -63,56 +65,86 @@
   </style>
 </head>
 <body>
-  <!-- Pantalla de inicio -->
+  <!-- Pantalla inicial -->
   <div id="inicio">
     <h1>🍇 Frutos del Espíritu</h1>
-    <p>“Mas el fruto del Espíritu es amor, gozo, paz, paciencia, benignidad, bondad, fe, mansedumbre y templanza.”<br><small>— Gálatas 5:22-23</small></p>
+    <p>“Mas el fruto del Espíritu es amor, gozo, paz, paciencia, benignidad, bondad, fe, mansedumbre y templanza.”<br>
+      <small>— Gálatas 5:22-23</small></p>
     <p>Escanea cada diseño y descubre el mensaje detrás de cada fruto.</p>
     <button id="btnIniciar">✨ Iniciar experiencia AR</button>
   </div>
 
-  <!-- Escena de realidad aumentada -->
+  <!-- Escena AR -->
   <a-scene
-    mindar-image="imageTargetSrc: ./img/; filterMinCF:0.001;"
+    mindar-image="imageTargetSrc: ./img/amor.mind; autoStart: false;"
+    color-space="sRGB"
+    embedded
+    renderer="colorManagement: true, physicallyCorrectLights"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false"
-    embedded
-    color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights"
   >
     <a-assets>
-      <video id="amor" src="amor.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
-      <video id="gozo" src="gozo.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
-      <video id="paz" src="paz.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
-      <video id="paciencia" src="paciencia.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
-      <video id="benignidad" src="benignidad.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
-      <video id="bondad" src="bondad.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
-      <video id="fe" src="fe.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
-      <video id="mansedumbre" src="mansedumbre.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
-      <video id="templanza" src="templanza.mp4" preload="auto" loop="true" crossorigin="anonymous"></video>
+      <video id="amor" src="./amor.mp4" loop crossorigin="anonymous" preload="auto"></video>
+      <video id="gozo" src="./gozo.mp4" loop crossorigin="anonymous" preload="auto"></video>
+      <video id="paz" src="./paz.mp4" loop crossorigin="anonymous" preload="auto"></video>
+      <video id="paciencia" src="./paciencia.mp4" loop crossorigin="anonymous" preload="auto"></video>
+      <video id="benignidad" src="./benignidad.mp4" loop crossorigin="anonymous" preload="auto"></video>
+      <video id="bondad" src="./bondad.mp4" loop crossorigin="anonymous" preload="auto"></video>
+      <video id="fe" src="./fe.mp4" loop crossorigin="anonymous" preload="auto"></video>
+      <video id="mansedumbre" src="./mansedumbre.mp4" loop crossorigin="anonymous" preload="auto"></video>
+      <video id="templanza" src="./templanza.mp4" loop crossorigin="anonymous" preload="auto"></video>
     </a-assets>
 
-    <!-- 9 marcadores -->
-    <a-image target="amor.mind" video="#amor" position="0 0 0" rotation="0 0 0"></a-image>
-    <a-image target="gozo.mind" video="#gozo" position="0 0 0" rotation="0 0 0"></a-image>
-    <a-image target="paz.mind" video="#paz" position="0 0 0" rotation="0 0 0"></a-image>
-    <a-image target="paciencia.mind" video="#paciencia" position="0 0 0" rotation="0 0 0"></a-image>
-    <a-image target="benignidad.mind" video="#benignidad" position="0 0 0" rotation="0 0 0"></a-image>
-    <a-image target="bondad.mind" video="#bondad" position="0 0 0" rotation="0 0 0"></a-image>
-    <a-image target="fe.mind" video="#fe" position="0 0 0" rotation="0 0 0"></a-image>
-    <a-image target="mansedumbre.mind" video="#mansedumbre" position="0 0 0" rotation="0 0 0"></a-image>
-    <a-image target="templanza.mind" video="#templanza" position="0 0 0" rotation="0 0 0"></a-image>
+    <!-- 9 Targets independientes -->
+    <a-entity mindar-image-target="targetIndex: 0; src: ./img/amor.mind">
+      <a-video src="#amor" width="1" height="0.6" position="0 0 0"></a-video>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 0; src: ./img/gozo.mind">
+      <a-video src="#gozo" width="1" height="0.6" position="0 0 0"></a-video>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 0; src: ./img/paz.mind">
+      <a-video src="#paz" width="1" height="0.6" position="0 0 0"></a-video>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 0; src: ./img/paciencia.mind">
+      <a-video src="#paciencia" width="1" height="0.6" position="0 0 0"></a-video>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 0; src: ./img/benignidad.mind">
+      <a-video src="#benignidad" width="1" height="0.6" position="0 0 0"></a-video>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 0; src: ./img/bondad.mind">
+      <a-video src="#bondad" width="1" height="0.6" position="0 0 0"></a-video>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 0; src: ./img/fe.mind">
+      <a-video src="#fe" width="1" height="0.6" position="0 0 0"></a-video>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 0; src: ./img/mansedumbre.mind">
+      <a-video src="#mansedumbre" width="1" height="0.6" position="0 0 0"></a-video>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 0; src: ./img/templanza.mind">
+      <a-video src="#templanza" width="1" height="0.6" position="0 0 0"></a-video>
+    </a-entity>
   </a-scene>
 
   <script>
     const btn = document.getElementById("btnIniciar");
     const inicio = document.getElementById("inicio");
+    const sceneEl = document.querySelector("a-scene");
 
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       inicio.style.display = "none";
-      // Solicitar permiso de cámara (necesario en iOS y algunos Android)
-      if (typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
-        DeviceOrientationEvent.requestPermission();
+      const mindarComponent = sceneEl.components["mindar-image"];
+      if (mindarComponent) {
+        await mindarComponent.start(); // 🔹 activa la cámara
+      } else {
+        alert("❌ Error: no se pudo iniciar la cámara.");
       }
     });
   </script>
