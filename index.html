@@ -1,103 +1,210 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AR Frutos del Espíritu</title>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image.prod.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.1/dist/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/aframe/mindar-image-aframe.prod.js"></script>
-    <style>
-      body, html {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-      }
-      #loading {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: #111;
-        color: #fff;
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.2rem;
-        z-index: 10;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="loading">Cargando cámara...</div>
 
-    <a-scene
-      mindar-image="imageTargetSrc: ./img/amor.mind, ./img/benignidad.mind, ./img/bondad.mind, ./img/fe.mind, ./img/gozo.mind, ./img/mansedumbre.mind, ./img/paciencia.mind, ./img/paz.mind, ./img/templanza.mind;"
-      color-space="sRGB"
-      renderer="colorManagement: true, physicallyCorrectLights"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-    >
-      <a-assets>
-        <video id="amor" src="./amor.mp4" preload="auto" loop crossorigin="anonymous"></video>
-        <video id="benignidad" src="./benignidad.mp4" preload="auto" loop crossorigin="anonymous"></video>
-        <video id="bondad" src="./bondad.mp4" preload="auto" loop crossorigin="anonymous"></video>
-        <video id="fe" src="./fe.mp4" preload="auto" loop crossorigin="anonymous"></video>
-        <video id="gozo" src="./gozo.mp4" preload="auto" loop crossorigin="anonymous"></video>
-        <video id="mansedumbre" src="./mansedumbre.mp4" preload="auto" loop crossorigin="anonymous"></video>
-        <video id="paciencia" src="./paciencia.mp4" preload="auto" loop crossorigin="anonymous"></video>
-        <video id="paz" src="./paz.mp4" preload="auto" loop crossorigin="anonymous"></video>
-        <video id="templanza" src="./templanza.mp4" preload="auto" loop crossorigin="anonymous"></video>
-      </a-assets>
+<head>
+  <meta charset="utf-8" />
+  <title>AR Frutos del Espíritu</title>
 
-      <!-- Cada target con su video -->
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-video src="#amor" width="1" height="0.6" position="0 0 0"></a-video>
-      </a-entity>
+  <!-- Librerías -->
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
 
-      <a-entity mindar-image-target="targetIndex: 1">
-        <a-video src="#benignidad" width="1" height="0.6" position="0 0 0"></a-video>
-      </a-entity>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
 
-      <a-entity mindar-image-target="targetIndex: 2">
-        <a-video src="#bondad" width="1" height="0.6" position="0 0 0"></a-video>
-      </a-entity>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0f1724 0%, #0b3d91 50%, #0b2b5a 100%);
+      color: #fff;
+    }
 
-      <a-entity mindar-image-target="targetIndex: 3">
-        <a-video src="#fe" width="1" height="0.6" position="0 0 0"></a-video>
-      </a-entity>
+    #inicio {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      text-align: center;
+      padding: 24px;
+      z-index: 5;
+    }
 
-      <a-entity mindar-image-target="targetIndex: 4">
-        <a-video src="#gozo" width="1" height="0.6" position="0 0 0"></a-video>
-      </a-entity>
+    #inicio h1 {
+      margin: 0;
+      font-size: 28px;
+      text-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+    }
 
-      <a-entity mindar-image-target="targetIndex: 5">
-        <a-video src="#mansedumbre" width="1" height="0.6" position="0 0 0"></a-video>
-      </a-entity>
+    #btnEscanear {
+      background: linear-gradient(90deg, #00d4ff 0%, #5efce8 100%);
+      color: #052023;
+      padding: 14px 34px;
+      border-radius: 28px;
+      border: none;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 212, 255, 0.18);
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
 
-      <a-entity mindar-image-target="targetIndex: 6">
-        <a-video src="#paciencia" width="1" height="0.6" position="0 0 0"></a-video>
-      </a-entity>
+    #btnEscanear:hover {
+      transform: scale(1.03);
+    }
 
-      <a-entity mindar-image-target="targetIndex: 7">
-        <a-video src="#paz" width="1" height="0.6" position="0 0 0"></a-video>
-      </a-entity>
+    #ar-wrapper {
+      width: 100vw;
+      height: 100vh;
+      display: none;
+      position: relative;
+      z-index: 1;
+    }
 
-      <a-entity mindar-image-target="targetIndex: 8">
-        <a-video src="#templanza" width="1" height="0.6" position="0 0 0"></a-video>
-      </a-entity>
-    </a-scene>
+    .mindar-video {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      object-fit: cover !important;
+      z-index: 0 !important;
+    }
 
-    <script>
-      window.addEventListener("load", () => {
-        const loading = document.getElementById("loading");
-        setTimeout(() => {
-          loading.style.display = "none";
-        }, 3000);
+    a-scene,
+    canvas {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: transparent !important;
+      z-index: 1 !important;
+    }
+
+    #hint {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      z-index: 6;
+      backdrop-filter: blur(4px);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Pantalla inicial -->
+  <div id="inicio">
+    <h1>📹 Escanea tu diseño</h1>
+    <p>Toca el botón para activar la cámara y ver los videos AR.</p>
+    <button id="btnEscanear" type="button">📷 Escanear diseños</button>
+  </div>
+
+  <!-- Contenedor AR -->
+  <div id="ar-wrapper"></div>
+
+  <script>
+    const btn = document.getElementById('btnEscanear');
+    const inicio = document.getElementById('inicio');
+    const arWrapper = document.getElementById('ar-wrapper');
+
+    btn.addEventListener('click', () => {
+      inicio.style.display = 'none';
+      arWrapper.style.display = 'block';
+
+      // Agregamos los 9 targets
+      arWrapper.innerHTML = `
+        <a-scene
+          mindar-image="imageTargetSrc: ./img/amor.mind, ./img/benignidad.mind, ./img/bondad.mind, ./img/fe.mind, ./img/gozo.mind, ./img/mansedumbre.mind, ./img/paciencia.mind, ./img/paz.mind, ./img/templanza.mind;"
+          color-space="sRGB"
+          embedded
+          renderer="colorManagement:true, physicallyCorrectLights, alpha:true"
+          vr-mode-ui="enabled:false"
+          device-orientation-permission-ui="enabled:false">
+
+          <a-assets>
+            <video id="amor" src="./amor.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="benignidad" src="./benignidad.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="bondad" src="./bondad.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="fe" src="./fe.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="gozo" src="./gozo.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="mansedumbre" src="./mansedumbre.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="paciencia" src="./paciencia.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="paz" src="./paz.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+            <video id="templanza" src="./templanza.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+          </a-assets>
+
+          <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
+
+          <!-- 9 targets con sus respectivos videos -->
+          ${[
+            'amor', 'benignidad', 'bondad', 'fe', 'gozo',
+            'mansedumbre', 'paciencia', 'paz', 'templanza'
+          ].map((name, i) => `
+            <a-entity mindar-image-target="targetIndex: ${i}">
+              <a-video id="${name}-plane"
+                src="#${name}"
+                position="0 0 0"
+                rotation="0 0 0"
+                visible="false">
+              </a-video>
+            </a-entity>
+          `).join('')}
+        </a-scene>
+      `;
+
+      const hint = document.createElement('div');
+      hint.id = 'hint';
+      hint.innerText = 'Apunta la cámara a tu diseño';
+      document.body.appendChild(hint);
+
+      const sceneEl = document.querySelector('a-scene');
+      const videos = [
+        'amor', 'benignidad', 'bondad', 'fe', 'gozo',
+        'mansedumbre', 'paciencia', 'paz', 'templanza'
+      ];
+
+      videos.forEach((name, i) => {
+        const videoEl = document.querySelector(`#${name}`);
+        const planeEl = document.querySelector(`#${name}-plane`);
+
+        videoEl.addEventListener('loadedmetadata', () => {
+          const aspect = videoEl.videoWidth / videoEl.videoHeight;
+          planeEl.setAttribute('width', 1);
+          planeEl.setAttribute('height', 1 / aspect);
+        });
+
+        // Eventos cuando se detecta el target
+        sceneEl.addEventListener(`targetFound`, (event) => {
+          if (event.detail && event.detail.targetIndex === i) {
+            videoEl.play();
+            planeEl.setAttribute('visible', true);
+            hint.innerText = `🎬 Reproduciendo: ${name.toUpperCase()}`;
+          }
+        });
+
+        sceneEl.addEventListener(`targetLost`, (event) => {
+          if (event.detail && event.detail.targetIndex === i) {
+            videoEl.pause();
+            planeEl.setAttribute('visible', false);
+            hint.innerText = 'Apunta la cámara a tu diseño';
+          }
+        });
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
+
 </html>
+
 
