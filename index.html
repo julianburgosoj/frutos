@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>AR Frutos del Espíritu 🍇</title>
+  <title>AR Fruto del Espíritu 🍇</title>
 
   <!-- Librerías principales -->
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
@@ -84,7 +84,7 @@
   <!-- Pantalla inicial -->
   <div id="inicio">
     <h1>📹 Escanea tu diseño</h1>
-    <p>Toca el botón para activar la cámara y ver los videos AR.</p>
+    <p>Toca el botón para activar la cámara y ver el video AR.</p>
     <button id="btnEscanear">📷 Escanear diseño</button>
   </div>
 
@@ -101,34 +101,29 @@
       arWrapper.style.display = 'block';
 
       arWrapper.innerHTML = `
-      <a-scene
-        mindar-image="imageTargetSrc: img/targets.mind;"
-        color-space="sRGB"
-        embedded
-        renderer="colorManagement:true, physicallyCorrectLights, alpha:true"
-        vr-mode-ui="enabled:false"
-        device-orientation-permission-ui="enabled:false">
+        <a-scene
+          mindar-image="imageTargetSrc: img/amor.mind;"
+          color-space="sRGB"
+          embedded
+          renderer="colorManagement:true, physicallyCorrectLights, alpha:true"
+          vr-mode-ui="enabled:false"
+          device-orientation-permission-ui="enabled:false">
 
-        <a-assets>
-          <video id="video0" src="amor.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
-          <video id="video1" src="benignidad.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
-          <video id="video2" src="bondad.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
-          <video id="video3" src="fe.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
-          <video id="video4" src="gozo.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
-          <video id="video5" src="mansedumbre.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
-          <video id="video6" src="paciencia.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
-          <video id="video7" src="paz.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
-          <video id="video8" src="templanza.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
-        </a-assets>
+          <a-assets>
+            <video id="videoAR" src="amor.mp4" preload="auto" playsinline crossorigin="anonymous"></video>
+          </a-assets>
 
-        <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
+          <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
 
-        ${[...Array(9).keys()].map(i => `
-          <a-entity mindar-image-target="targetIndex: ${i}">
-            <a-video id="plane${i}" src="#video${i}" position="0 0 0" rotation="0 0 0" visible="false"></a-video>
+          <a-entity mindar-image-target="targetIndex: 0">
+            <a-video id="videoPlane"
+              src="#videoAR"
+              position="0 0 0"
+              rotation="0 0 0"
+              visible="false">
+            </a-video>
           </a-entity>
-        `).join('')}
-      </a-scene>
+        </a-scene>
       `;
 
       const hint = document.createElement('div');
@@ -137,28 +132,34 @@
       document.body.appendChild(hint);
 
       const sceneEl = document.querySelector('a-scene');
+      const videoEl = document.querySelector('#videoAR');
+      const videoPlane = document.querySelector('#videoPlane');
 
-      sceneEl.addEventListener('targetFound', (e) => {
-        const i = e.detail.targetIndex;
-        const video = document.querySelector(`#video${i}`);
-        const plane = document.querySelector(`#plane${i}`);
-        plane.setAttribute('visible', true);
-        video.play();
-        hint.innerText = '🎬 Reproduciendo video';
+      videoEl.muted = false;
+
+      videoEl.addEventListener('loadedmetadata', () => {
+        const aspect = videoEl.videoWidth / videoEl.videoHeight;
+        videoPlane.setAttribute('width', 1);
+        videoPlane.setAttribute('height', 1 / aspect);
       });
 
-      sceneEl.addEventListener('targetLost', (e) => {
-        const i = e.detail.targetIndex;
-        const video = document.querySelector(`#video${i}`);
-        const plane = document.querySelector(`#plane${i}`);
-        plane.setAttribute('visible', false);
-        video.pause();
+      sceneEl.addEventListener('targetFound', () => {
+        videoPlane.setAttribute('visible', true);
+        videoEl.play();
+        hint.innerText = '🎬 Video detectado, reproduciendo';
+      });
+
+      sceneEl.addEventListener('targetLost', () => {
+        videoPlane.setAttribute('visible', false);
+        videoEl.pause();
         hint.innerText = 'Apunta la cámara a tu diseño';
       });
     });
   </script>
 </body>
 </html>
+
+
 
 
 
